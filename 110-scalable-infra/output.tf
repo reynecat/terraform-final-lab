@@ -3,16 +3,6 @@ output "vpc_id" {
   value       = aws_vpc.main.id
 }
 
-output "web_server_public_ip" {
-  description = "Web Server Public IP"
-  value       = aws_eip.web.public_ip
-}
-
-output "web_server_public_dns" {
-  description = "Web Server Public DNS"
-  value       = aws_instance.web.public_dns
-}
-
 output "rds_endpoint" {
   description = "RDS Database Endpoint"
   value       = aws_db_instance.main.endpoint
