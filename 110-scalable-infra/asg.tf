@@ -1,4 +1,4 @@
-# Ubuntu 20.04 or later AMI
+# Ubuntu 
 data "aws_ami" "ubuntu" {
   most_recent = true
   filter {
