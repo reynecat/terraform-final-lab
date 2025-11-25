@@ -18,7 +18,7 @@ resource "aws_db_instance" "main" {
   storage_type           = "gp3"
   storage_encrypted      = true
   
-  db_name  = "labdb"
+  db_name  = "seungilove"
   username = var.db_username
   password = var.db_password
 

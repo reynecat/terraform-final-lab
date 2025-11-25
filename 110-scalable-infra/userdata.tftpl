@@ -1,21 +1,36 @@
 #!/bin/bash -ex
 
 # Update system
-dnf update -y
+apt-get update
+apt-get upgrade -y
+
+# Set password for ubuntu user
+echo "ubuntu:seungilove" | chpasswd # Set the password as you want
 
 # Install required packages
-dnf install -y httpd wget php-fpm php-mysqli php-json php php-devel
-dnf install -y mariadb105-server
+apt-get install -y apache2 wget php-fpm php-mysql php-json php php-dev unzip
+apt-get install -y mariadb-client
 
 # Enable and start Apache
-/usr/bin/systemctl enable httpd
-/usr/bin/systemctl start httpd
+systemctl enable apache2
+systemctl start apache2
+
+# Enable PHP-FPM
+systemctl enable php8.1-fpm
+systemctl start php8.1-fpm
+
+# Configure Apache to use PHP-FPM
+a2enmod proxy_fcgi setenvif
+a2enconf php8.1-fpm
+systemctl reload apache2
 
 # Download and deploy application
 cd /var/www/html
+rm -f /var/www/html/index.html
 wget https://aws-largeobjects.s3.ap-northeast-2.amazonaws.com/AWS-AcademyACF/lab7-app-php7.zip
-unzip lab7-app-php7.zip -d /var/www/html/
-chown -R apache:root /var/www/html
+unzip -o lab7-app-php7.zip
+rm -f lab7-app-php7.zip
+chown -R www-data:www-data /var/www/html
 
 # Configure database connection
 cat > /var/www/html/db-config.php <<'PHPEOF'
@@ -27,8 +42,8 @@ $db_pass = "${db_password}";
 ?>
 PHPEOF
 
-chown apache:root /var/www/html/db-config.php
+chown www-data:www-data /var/www/html/db-config.php
 chmod 640 /var/www/html/db-config.php
 
 # Restart Apache
-systemctl restart httpd
+systemctl restart apache2

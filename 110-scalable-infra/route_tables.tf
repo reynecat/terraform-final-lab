@@ -1,5 +1,4 @@
-#route_tables.tf
-#putlic route tables
+# Public Route Table
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 

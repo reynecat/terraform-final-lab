@@ -10,14 +10,13 @@ terraform {
 }
 
 provider "aws" {
-  region = "ap-northeast-2" # Asia Pacific (Seoul) region
+  region = "ap-northeast-2" # Seoul region
 }
 
 variable "aws_region" {
   description = "AWS Region"
   default     = "ap-northeast-2"
 }
-
 
 
 variable "project_name" {
